@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Awesome App
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="has-footer" padding>
+	<button ion-button (click)="preview();">Explore</button>
+	<ion-list>
+		<ion-item *ngFor="let image of images|async">
+			<img [src]="image.downloadURL" />
+		</ion-item>
+	</ion-list>
+</ion-content>
+<ion-footer>
+	<ion-grid>
+	  <ion-row>
+	    <ion-col style="border-right:1px solid rgb(200,200,200);"width-50><button ion-button class="button button-assertive button-clear"(click)="navLogin()"full>Login</button></ion-col>
+	    <ion-col width-50><button ion-button class="button button-assertive button-clear"(click)="navSignUp()"full>Sign Up</button></ion-col>
+	  </ion-row>
+	</ion-grid>
+</ion-footer>

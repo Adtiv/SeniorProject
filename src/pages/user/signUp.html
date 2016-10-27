@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Sign Up 
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+    <form (ngSubmit)="signUp()">
+        <ion-item>
+            <ion-label floating>Email</ion-label>
+            <ion-input name="email"type="text" value="" [(ngModel)]="signUpEmail"></ion-input>         
+        </ion-item>               
+        <ion-item>
+            <ion-label floating>Password</ion-label>
+            <ion-input name="password"type="text" value="" [(ngModel)]="signUpPassword" ></ion-input>
+        </ion-item>
+        <br/><br/> 
+        <ion-list>
+            <ion-item>
+                users
+            </ion-item>
+            <ion-item *ngFor="let user of users | async">
+                {{user.email}}
+            </ion-item>
+        </ion-list>
+        <button ion-button type="submit" class="custom-button" block>Sign Up!</button>
+    </form>
+</ion-content>
