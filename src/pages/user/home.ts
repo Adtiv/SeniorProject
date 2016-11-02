@@ -4,8 +4,10 @@ import { Platform} from 'ionic-angular';
 import { LoginPage} from './login';
 import { SignUpPage } from './signUp';
 import { CameraViewPage } from '../main/cameraView';
+import { Canvas } from '../main/canvas';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2';
-import { CameraPreview } from 'ionic-native'
+import { CameraPreview } from 'ionic-native';
+
 //declare var LoginPage:any;
 //declare var SignUpPage:any;
 //declare var CameraViewPage:any;
@@ -64,6 +66,9 @@ export class HomePage  implements OnInit{
   }
   navMain(){
     this.nav.setRoot(CameraViewPage);
+  }
+  navCanvas() {
+    this.nav.push(Canvas);
   }
   preview(){
       if(!this.platform.is('android')){

@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
-import { CameraPreview } from 'ionic-native'
-import { DomSanitizer } from '@angular/platform-browser';
+import { CameraPreview } from 'ionic-native';
 import { MainService } from './main.service';
 declare var cordova:any;;
 //declare var MainService: any;
@@ -12,9 +11,13 @@ declare var cordova:any;;
 export class DrawMessagePage {
   public backgroundImage: string;
   public canvas;
-  constructor(public navCtrl: NavController,private platform:Platform,private domSanitizer:DomSanitizer,private mainService:MainService) {
-    this.backgroundImage=mainService.cameraViewPicture;
-    this.canvas = <HTMLCanvasElement>document.getElementById('canvas');
+  constructor(public navCtrl: NavController,private platform:Platform,private mainService:MainService) {
+    if(this.platform.is('android')) {
+      this.backgroundImage = mainService.cameraViewPicture;
+    }
+    else {
+      this.backgroundImage = mainService.cameraPicture;
+    }
   }
   getImage(){
     //return this.domSanitizer.bypassSecurityTrustStyle('url(' + this.backgroundImage + ')');

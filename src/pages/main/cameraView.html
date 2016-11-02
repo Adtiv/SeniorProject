@@ -1,8 +1,12 @@
 <ion-content class="cameraView">
-	<ion-list>
+	<!-- <ion-list>
 		<ion-item *ngFor="let image of images|async">
 			<img [src]="image.downloadURL" />
 		</ion-item>
-	</ion-list>
-  <button ion-button large outline fab fab-center fab-bottom (click)="takePicture()"></button>
+	</ion-list> -->
+  <div style="text-align: center;">
+    <button ion-button outline round icon-only (click)="takePicture()">
+      <ion-icon name="camera"></ion-icon>
+    </button>
+  </div>
 </ion-content>

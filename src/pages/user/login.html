@@ -9,13 +9,14 @@
     <form (ngSubmit)="login()">
         <ion-item>
             <ion-label floating>Email</ion-label>
-            <ion-input name="email"type="text" value="" [(ngModel)]="userEmail"></ion-input>         
-        </ion-item>               
+            <ion-input name="email"type="text" value="" [(ngModel)]="userEmail"></ion-input>
+        </ion-item>
         <ion-item>
             <ion-label floating>Password</ion-label>
             <ion-input name="password"type="text" value="" [(ngModel)]="userPassword" ></ion-input>
         </ion-item>
-        <br/><br/> 
+        <br/><br/>
         <button ion-button type="submit" class="custom-button" block>Login!</button>
+        <button ion-button  class="custom-button" (click)="logout()"block>Logout!</button>
     </form>
 </ion-content>

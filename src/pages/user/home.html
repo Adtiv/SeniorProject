@@ -6,13 +6,10 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content class="has-footer" padding>
+<ion-content class="has-footer" id="homeBackground" padding>
 	<button ion-button (click)="preview();">Explore</button>
-	<ion-list>
-		<ion-item *ngFor="let image of images|async">
-			<img [src]="image.downloadURL" />
-		</ion-item>
-	</ion-list>
+  <button ion-button (click)="navCanvas();">Canvas</button>
+			<span *ngFor="let image of images|async"><img [src]="image.downloadURL" /></span>
 </ion-content>
 <ion-footer>
 	<ion-grid>

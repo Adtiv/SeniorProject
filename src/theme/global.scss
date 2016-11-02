@@ -2,7 +2,7 @@
 
 
 // Global CSS
-// -------------------------------------------------- 
+// --------------------------------------------------
 // Put CSS rules here that you want to apply globally.
 //
 // To declare rules for a specific mode, create a child rule
@@ -11,6 +11,14 @@
 //
 // App Shared Sass variables belong in app.variables.scss.
 
-	html, body, ion-content, ion-page, .nav-decor{
-	    background-color: transparent !important;
-	}
+html, body, ion-content, ion-page, .nav-decor{
+	  background-color: transparent !important;
+}
+
+#homeBackground {
+	background-color: black !important;
+}
+
+.canvas {
+	background-color: blue !important;
+}

@@ -10,6 +10,7 @@ declare var firebase : any;
 @Injectable()
 export class MainService implements OnInit{
     public cameraViewPicture: string;
+    public cameraPicture: string;
     public imageList: FirebaseListObservable<any>;
     public fb: Observable<any>;
     public storageRef: any;
@@ -39,7 +40,7 @@ export class MainService implements OnInit{
             this.storageRef.child('image1.png').put(myBlob).then((savedPicture) => {
               console.log("DL URL Before function: "+savedPicture.downloadURL);
               this.uploadImageInfo(savedPicture);
-            });  
+            });
       }
     };
     xhr.send();
