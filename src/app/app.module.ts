@@ -10,7 +10,6 @@ import { MainService } from '../pages/main/main.service';
 import { CameraViewPage } from '../pages/main/cameraView';
 import { DrawMessagePage } from '../pages/main/drawMessage';
 import { AngularFireModule } from 'angularfire2';
-import { Canvas } from '../pages/main/canvas';
 
 export const firebaseConfig = {
     apiKey: "AIzaSyDjxzurguIw3nIhrANP_CRr81o9uwT_q2o",
@@ -26,8 +25,7 @@ export const firebaseConfig = {
     LoginPage,
     SignUpPage,
     CameraViewPage,
-    DrawMessagePage,
-    Canvas
+    DrawMessagePage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -40,8 +38,7 @@ export const firebaseConfig = {
     LoginPage,
     SignUpPage,
     CameraViewPage,
-    DrawMessagePage,
-    Canvas
+    DrawMessagePage
   ],
   providers: [UserService, MainService]
 })
