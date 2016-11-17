@@ -10,6 +10,7 @@ import { MainService } from '../pages/main/main.service';
 import { CameraViewPage } from '../pages/main/cameraView';
 import { DrawMessagePage } from '../pages/main/drawMessage';
 import { AngularFireModule } from 'angularfire2';
+// import { MapToIterable } from '../pages/main/mapToIterable.pipe'
 
 export const firebaseConfig = {
     apiKey: "AIzaSyDjxzurguIw3nIhrANP_CRr81o9uwT_q2o",
@@ -26,6 +27,7 @@ export const firebaseConfig = {
     SignUpPage,
     CameraViewPage,
     DrawMessagePage
+    // MapToIterable
   ],
   imports: [
     IonicModule.forRoot(MyApp),

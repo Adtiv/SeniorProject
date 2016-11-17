@@ -7,6 +7,7 @@ import { CameraViewPage } from '../main/cameraView';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2';
 import { CameraPreview } from 'ionic-native';
 
+import { Map } from '../main/Map'
 //declare var LoginPage:any;
 //declare var SignUpPage:any;
 //declare var CameraViewPage:any;
@@ -14,22 +15,28 @@ declare var firebase : any;
 declare var cordova;
 var x;
 @Component({
-  templateUrl: 'home.html'
+  templateUrl: 'home.html',
 })
 export class HomePage  implements OnInit{
   testPic:any;
   public auth:any;
   public images:FirebaseListObservable<any>;
+  public storageRef: any;
   constructor(private af:AngularFire, private nav:NavController, private platform:Platform){
-    this.testPic="";
+    var fileReader = new FileReader();
+    //console.log(this.map["hello"]="hi");
+    //console.log(downloadURL);
     this.auth = firebase.auth();
     this.images = this.af.database.list('images/');
+    this.storageRef = firebase.storage().ref('pics/');
+    var file;
     this.af.database.list('images/').subscribe((pics)=>{
-      pics.forEach((pic)=>{
-        console.log(pic.downloadURL);
-      })
     });
-    //console.log(this.auth);
+    var test = function(){
+      console.log("HERE");
+      console.log(this.auth);
+    }
+    test()
   }
   ngOnInit(){
     //this.initPics();

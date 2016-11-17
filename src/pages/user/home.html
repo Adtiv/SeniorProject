@@ -8,7 +8,7 @@
 
 <ion-content class="has-footer" id="homeBackground" padding>
 	<button ion-button (click)="preview();">Explore</button>
-			<span *ngFor="let image of images|async"><img [src]="image.downloadURL" /></span>
+			<span *ngFor="let image of images|async"><img [src]="image.downloadURL" style="width:50px;height50px"/></span>
 </ion-content>
 <ion-footer>
 	<ion-grid>

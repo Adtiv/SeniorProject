@@ -1,30 +1,39 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Component, OnInit } from '@angular/core';
+import { NavController,LoadingController } from 'ionic-angular';
+import { Geolocation,Geoposition } from 'ionic-native';
 import { Camera } from 'ionic-native';
 import { Platform } from 'ionic-angular';
 import { CameraPreview , CameraPreviewRect} from 'ionic-native'
 import { MainService } from './main.service';
 import { DrawMessagePage } from './drawMessage';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
-
+import { Map } from './Map'
 declare var cordova:any;
+declare var firebase: any;
 
 @Component({
   selector:'camera-view',
   templateUrl: 'cameraView.html'
 })
-export class CameraViewPage {
+export class CameraViewPage implements OnInit{
   public base64Image: string;
   public platformWidth: any;
   public platformHeight: any;
   public images:FirebaseListObservable<any>;
-  constructor(public af:AngularFire,public navCtrl: NavController,private platform:Platform,private mainService:MainService) {
+  public storageRef: any;
+  public firebaseRef:any;
+  public imagesInUserLocation:any;
+
+  constructor(public af:AngularFire,public loading:LoadingController,public navCtrl: NavController,private platform:Platform,private mainService:MainService){
     this.platformWidth = this.platform.width();
     this.platformHeight = this.platform.height();
     console.log("platformWidth: " + this.platformWidth);
     console.log("platformHeight: " + this.platformHeight);
+    this.storageRef = firebase.storage().ref('pics/');
+    //this.firebaseRef = firebase.database().ref('images/<imgId>');
+    this.mainService.watchAndQueryLocation()
+    this.images = this.af.database.list('images/');
     if(this.platform.is('android')){
-      console.log("GETS TO ANDROID PLAT");
         let tapEnabled = false;
         let dragEnabled = false;
         let toBack = true;
@@ -38,15 +47,34 @@ export class CameraViewPage {
         CameraPreview.show();
     }
     CameraPreview.setOnPictureTakenHandler().subscribe((result) => {
-      this.base64Image = result[0];
-      mainService.cameraViewPicture = this.base64Image;
-      mainService.uploadToFirebase(this.base64Image);
-      console.log(this.base64Image);
-      CameraPreview.hide();
-      this.navCtrl.setRoot(DrawMessagePage);
-
+      mainService.cameraViewPicture = result[0];
+      this.getBase64Image(result[0],function(dataURI){
+        this.base64Image=dataURI
+        console.log(this.base64Image);
+        // have a string, do the search
+        mainService.uploadToFirebase(this.base64Image)
+        CameraPreview.hide();
+        navCtrl.setRoot(DrawMessagePage);
+      });
     });
-    this.images = this.af.database.list('images/');
+    this.imagesInUserLocation=this.mainService.userRadius.Values();
+    console.log("IMAGES");
+    console.log(this.imagesInUserLocation);
+    setInterval(() => {this.imagesInUserLocation=this.mainService.userRadius.Values()}, 60*1);
+  }
+  ngOnInit(){
+
+  }
+  getBase64Image(url,callback) {
+      var image = new Image();
+      image.onload = function () {
+          var canvas = document.createElement('canvas');
+          canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
+          canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
+          canvas.getContext('2d').drawImage(this, 0, 0);
+          callback(canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, ''));
+      };
+      image.src = url;
   }
   ionViewDidEnter() {
     document.getElementById('cameraView').style.width = "" + this.platform.width() + "px";
