@@ -20,35 +20,73 @@ export class DrawMessagePage {
     }
   }
   ionViewDidEnter() {
+    var canvasPage = document.getElementById('canvasPage');
     this.myCanvas = <HTMLCanvasElement>document.getElementById('canvas');
     var canvas = this.myCanvas;
     var context = canvas.getContext("2d");
     var isDrawing = false;
-    canvas.width = this.platform.width();
-    canvas.height = this.platform.height();
-    console.log("Canvas Width: " + canvas.width);
-    console.log("Canvas Height: " + canvas.height);
+    var canvasWidth = this.platform.width();
+    var canvasHeight = this.platform.height();
+    var undo_list = [];
+    var red = "#ff0000";
+    var orange = "#ffa500";
+    var yellow = "#ffb90f";
+    var green = "#659b41";
+    var blue = "#0000ff";
+    var teal = "008080";
+    var turquoise = "00f5ff";
+    var indigo = "#4b0082";
+    var violet = "#ee82ee";
+    var gray = "#8b8878";
+    var brown = "#986928";
+    var black = "#050505";
+    var currColor = black;
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+    // var redBox = document.getElementById('red');
+    // redBox.style.width = "" + canvasWidth * 0.1 + "px";
+    // redBox.style.height = "" + canvasHeight * 0.1 + "px";
+    // redBox.style.paddingTop = "" + canvasHeight * 0.9 + "px";
+    // var orangeBox = document.getElementById('orange');
+    // orangeBox.style.width = "" + canvasWidth * 0.1 + "px";
+    // orangeBox.style.height = "" + canvasHeight * 0.1 + "px";
+    // orangeBox.style.paddingTop = "" + canvasHeight * 0.9 + "px";
+    // var yellowBox = document.getElementById('yellow')
+    // yellowBox.style.width = "" + canvasWidth * 0.1 + "px";
+    // yellowBox.style.height = "" + canvasHeight * 0.1 + "px";
+    // yellowBox.style.paddingTop = "" + canvasHeight * 0.9 + "px";
+    // var greenBox = document.getElementById('green')
+    // greenBox.style.width = "" + canvasWidth * 0.1 + "px";
+    // greenBox.style.height = "" + canvasHeight * 0.1 + "px";
+    // greenBox.style.paddingTop = "" + canvasHeight * 0.9 + "px";
+    // var blueBox = document.getElementById('blue')
+    // blueBox.style.width = "" + canvasWidth * 0.1 + "px";
+    // blueBox.style.height = "" + canvasHeight * 0.1 + "px";
+    // blueBox.style.paddingTop = "" + canvasHeight * 0.9 + "px";
+    // var indigoBox = document.getElementById('indigo')
+    // indigoBox.style.width = "" + canvasWidth * 0.1 + "px";
+    // indigoBox.style.height = "" + canvasHeight * 0.1 + "px";
+    // indigoBox.style.paddingTop = "" + canvasHeight * 0.9 + "px";
+    // var violetBox = document.getElementById('violet')
+    // violetBox.style.width = "" + canvasWidth * 0.1 + "px";
+    // violetBox.style.height = "" + canvasHeight * 0.1 + "px";
+    // violetBox.style.paddingTop = "" + canvasHeight * 0.9 + "px";
     init();
 
     function start(event) {
-      console.log("START!!!!");
       isDrawing = true;
-      console.log("isDrawing:" + isDrawing);
-      console.log("Context inside start: " + context);
+      context.lineWidth = 5;
+      context.strokeStyle = currColor;
       context.beginPath();
-      console.log("Made it after begin path");
       var touchX = getX(event);
       var touchY = getY(event);
-      console.log("TOUCH X: " + touchX);
-      console.log("TOUCH Y: " + touchY);
       context.moveTo(touchX, touchY);
+      saveState(canvas);
       event.preventDefault();
     }
 
     function draw(event) {
-      console.log("Draw");
       if(isDrawing) {
-          console.log("Draw if statement");
           context.lineTo(getX(event),getY(event));
           context.stroke();
       }
@@ -56,9 +94,7 @@ export class DrawMessagePage {
     }
 
     function stop(event) {
-      console.log("STOP!!!");
       if(isDrawing) {
-         console.log("Inside stop statement");
          context.stroke();
          context.closePath();
          isDrawing = false;
@@ -68,13 +104,11 @@ export class DrawMessagePage {
 
     function getX(event) {
       var touch = event.targetTouches[0];
-      console.log("GETX: " + (touch.pageX-touch.target.offsetLeft));
       return touch.pageX-touch.target.offsetLeft;
     }
 
     function getY(event) {
       var touch = event.targetTouches[0];
-      console.log("GETY: " + (touch.pageY-touch.target.offsetTop));
       return touch.pageY-touch.target.offsetTop;
     }
 
@@ -82,6 +116,50 @@ export class DrawMessagePage {
       canvas.addEventListener("touchstart",start,false);
       canvas.addEventListener("touchmove",draw,false);
       canvas.addEventListener("touchend",stop,false);
+      document.getElementById('undoButton').addEventListener('click', function() {
+        undo(canvas, context);
+      });
+      // document.getElementById('red').addEventListener('click', function() {
+      //   currColor = red;
+      // });
+      // document.getElementById('orange').addEventListener('click', function() {
+      //   currColor = orange;
+      // });
+      // document.getElementById('yellow').addEventListener('click', function() {
+      //   currColor = yellow;
+      // });
+      // document.getElementById('green').addEventListener('click', function() {
+      //   currColor = green;
+      // });
+      // document.getElementById('blue').addEventListener('click', function() {
+      //   currColor = blue;
+      // });
+      // document.getElementById('indigo').addEventListener('click', function() {
+      //   currColor = indigo;
+      // });
+      // document.getElementById('violet').addEventListener('click', function() {
+      //   currColor = violet;
+      // });
+    }
+
+    function saveState (canvas) {
+      undo_list.push(canvas.toDataURL());
+    }
+
+    function restoreState(canvas, context, pop) {
+      if(pop.length) {
+        var restore_state = pop.pop();
+        var img = new Image(canvasWidth, canvasHeight);
+        img.src = restore_state;
+        img.onload = function() {
+          context.clearRect(0, 0, canvasWidth, canvasHeight);
+          context.drawImage(img, 0, 0, canvasWidth, canvasHeight, 0, 0, canvasWidth, canvasHeight);
+        }
+      }
+    }
+
+    function undo(canvas, context) {
+      restoreState(canvas, context, undo_list);
     }
   }
   getImage(){

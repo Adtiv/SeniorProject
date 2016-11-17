@@ -19,7 +19,10 @@ export class CameraViewPage {
   public platformHeight: any;
   public images:FirebaseListObservable<any>;
   constructor(public af:AngularFire,public navCtrl: NavController,private platform:Platform,private mainService:MainService) {
-
+    this.platformWidth = this.platform.width();
+    this.platformHeight = this.platform.height();
+    console.log("platformWidth: " + this.platformWidth);
+    console.log("platformHeight: " + this.platformHeight);
     if(this.platform.is('android')){
       console.log("GETS TO ANDROID PLAT");
         let tapEnabled = false;
@@ -40,10 +43,15 @@ export class CameraViewPage {
       mainService.uploadToFirebase(this.base64Image);
       console.log(this.base64Image);
       CameraPreview.hide();
-      this.navCtrl.push(DrawMessagePage);
+      this.navCtrl.setRoot(DrawMessagePage);
 
     });
     this.images = this.af.database.list('images/');
+  }
+  ionViewDidEnter() {
+    document.getElementById('cameraView').style.width = "" + this.platform.width() + "px";
+    document.getElementById('cameraView').style.height = "" + this.platform.height() + "px";
+    document.getElementById('cameraDiv').style.paddingTop = "" + this.platform.height() * 0.85 + "px";
   }
   takePicture() {
     if(this.platform.is('android')) {
@@ -55,11 +63,13 @@ export class CameraViewPage {
     else {
       Camera.getPicture({
         destinationType: Camera.DestinationType.DATA_URL,
-        targetWidth: this.platform.width(),
-        targetHeight: this.platform.height()
+        targetWidth: this.platformWidth,
+        targetHeight: this.platformHeight
       }).then((imageData) => {
       // imageData is a base64 encoded string
         console.log("GETTING THE PICTURE");
+        console.log("targetWidth: " + this.platformWidth);
+        console.log("targetHeight: " + this.platformHeight);
         this.base64Image = "data:image/jpeg;base64," + imageData;
         console.log("BASE64 IMAGE: " + this.base64Image);
         this.mainService.cameraPicture = this.base64Image;
