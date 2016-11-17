@@ -20,6 +20,7 @@ export class DrawMessagePage {
     }
   }
   ionViewDidEnter() {
+    var self = this;
     var canvasPage = document.getElementById('canvasPage');
     this.myCanvas = <HTMLCanvasElement>document.getElementById('canvas');
     var canvas = this.myCanvas;
@@ -119,6 +120,9 @@ export class DrawMessagePage {
       document.getElementById('undoButton').addEventListener('click', function() {
         undo(canvas, context);
       });
+      document.getElementById('save').addEventListener('click', function() {
+        save(canvas);
+      });
       // document.getElementById('red').addEventListener('click', function() {
       //   currColor = red;
       // });
@@ -145,7 +149,9 @@ export class DrawMessagePage {
     function saveState (canvas) {
       undo_list.push(canvas.toDataURL());
     }
-
+    function save(canvas){
+      self.mainService.uploadToFirebase(canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, ''));
+    }
     function restoreState(canvas, context, pop) {
       if(pop.length) {
         var restore_state = pop.pop();

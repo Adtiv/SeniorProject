@@ -48,14 +48,15 @@ export class CameraViewPage implements OnInit{
     }
     CameraPreview.setOnPictureTakenHandler().subscribe((result) => {
       mainService.cameraViewPicture = result[0];
+      /*
       this.getBase64Image(result[0],function(dataURI){
         this.base64Image=dataURI
         console.log(this.base64Image);
         // have a string, do the search
         mainService.uploadToFirebase(this.base64Image)
         CameraPreview.hide();
+      });*/
         navCtrl.setRoot(DrawMessagePage);
-      });
     });
     this.imagesInUserLocation=this.mainService.userRadius.Values();
     console.log("IMAGES");

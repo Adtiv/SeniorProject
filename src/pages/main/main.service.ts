@@ -34,7 +34,7 @@ export class MainService implements OnInit{
         this.imageList.push({downloadURL:uploadInfo.downloadURL});
     }
     uploadToFirebase(base64Image){
-      var newPic =  this.storageRef.child('cameraPreview_'+Date.now());
+      var newPic =  this.storageRef.child('drawMessage_'+Date.now());
       var location;
       newPic.putString(base64Image, 'base64',{type:"image/png"})
         .then((savedPicture) => {
