@@ -1,8 +1,15 @@
 <ion-content class="cameraView">
 	<ion-list>
-		<ion-item *ngFor="let image of images|async">
-			<img [src]="image.downloadURL" />
-		</ion-item>
+		<!--
+		<span *ngFor="let item of imagesInUserLocation.items| mapToIterable">
+			<img [src]="item.value" style="width:50px;height50px"/>
+			{{item.key}}
+			<img src=""id="uploadPic"/>
+		</span>
+		-->
+		<span *ngFor="let img of imagesInUserLocation">
+			<img [src]="img" style="width:50px;height50px"/>
+		</span>
 	</ion-list>
   <button ion-button large outline fab fab-center fab-bottom (click)="takePicture()"></button>
 </ion-content>
