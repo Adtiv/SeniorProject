@@ -11,9 +11,9 @@
 			<img [src]="img" style="width:50px;height50px"/>
 		</span>
 	</ion-list>
-  <div id="cameraDiv" style="text-align: center;">
-    <button ion-button outline round icon-only (click)="takePicture()">
-      <ion-icon name="ion-ios-camera-outline"></ion-icon>
-    </button>
-  </div>
+  	<div id="cameraDiv" style="position: absolute; bottom: 0; width: 100%; text-align: center;">
+	    	<button ion-button outline round icon-only (click)="takePicture()">
+	      	<ion-icon name="camera"></ion-icon>
+	    	</button>
+  	</div>
 </ion-content>

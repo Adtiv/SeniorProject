@@ -80,7 +80,6 @@ export class CameraViewPage implements OnInit{
   ionViewDidEnter() {
     document.getElementById('cameraView').style.width = "" + this.platform.width() + "px";
     document.getElementById('cameraView').style.height = "" + this.platform.height() + "px";
-    document.getElementById('cameraDiv').style.paddingTop = "" + this.platform.height() * 0.85 + "px";
   }
   takePicture() {
     if(this.platform.is('android')) {
@@ -103,7 +102,7 @@ export class CameraViewPage implements OnInit{
         console.log("BASE64 IMAGE: " + this.base64Image);
         this.mainService.cameraPicture = this.base64Image;
         console.log("NAVIGATING TO DRAW MESSAGE");
-        this.navCtrl.push(DrawMessagePage);
+        this.navCtrl.setRoot(DrawMessagePage);
       }, (err) => {
         console.log("UH OH THAT DID NOT WORK " + err);
       });

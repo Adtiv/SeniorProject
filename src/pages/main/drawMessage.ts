@@ -47,31 +47,24 @@ export class DrawMessagePage {
     // var redBox = document.getElementById('red');
     // redBox.style.width = "" + canvasWidth * 0.1 + "px";
     // redBox.style.height = "" + canvasHeight * 0.1 + "px";
-    // redBox.style.paddingTop = "" + canvasHeight * 0.9 + "px";
     // var orangeBox = document.getElementById('orange');
     // orangeBox.style.width = "" + canvasWidth * 0.1 + "px";
     // orangeBox.style.height = "" + canvasHeight * 0.1 + "px";
-    // orangeBox.style.paddingTop = "" + canvasHeight * 0.9 + "px";
     // var yellowBox = document.getElementById('yellow')
     // yellowBox.style.width = "" + canvasWidth * 0.1 + "px";
     // yellowBox.style.height = "" + canvasHeight * 0.1 + "px";
-    // yellowBox.style.paddingTop = "" + canvasHeight * 0.9 + "px";
     // var greenBox = document.getElementById('green')
     // greenBox.style.width = "" + canvasWidth * 0.1 + "px";
     // greenBox.style.height = "" + canvasHeight * 0.1 + "px";
-    // greenBox.style.paddingTop = "" + canvasHeight * 0.9 + "px";
     // var blueBox = document.getElementById('blue')
     // blueBox.style.width = "" + canvasWidth * 0.1 + "px";
     // blueBox.style.height = "" + canvasHeight * 0.1 + "px";
-    // blueBox.style.paddingTop = "" + canvasHeight * 0.9 + "px";
     // var indigoBox = document.getElementById('indigo')
     // indigoBox.style.width = "" + canvasWidth * 0.1 + "px";
     // indigoBox.style.height = "" + canvasHeight * 0.1 + "px";
-    // indigoBox.style.paddingTop = "" + canvasHeight * 0.9 + "px";
     // var violetBox = document.getElementById('violet')
     // violetBox.style.width = "" + canvasWidth * 0.1 + "px";
     // violetBox.style.height = "" + canvasHeight * 0.1 + "px";
-    // violetBox.style.paddingTop = "" + canvasHeight * 0.9 + "px";
     init();
 
     function start(event) {
@@ -123,27 +116,27 @@ export class DrawMessagePage {
       document.getElementById('save').addEventListener('click', function() {
         save(canvas);
       });
-      // document.getElementById('red').addEventListener('click', function() {
-      //   currColor = red;
-      // });
-      // document.getElementById('orange').addEventListener('click', function() {
-      //   currColor = orange;
-      // });
-      // document.getElementById('yellow').addEventListener('click', function() {
-      //   currColor = yellow;
-      // });
-      // document.getElementById('green').addEventListener('click', function() {
-      //   currColor = green;
-      // });
-      // document.getElementById('blue').addEventListener('click', function() {
-      //   currColor = blue;
-      // });
-      // document.getElementById('indigo').addEventListener('click', function() {
-      //   currColor = indigo;
-      // });
-      // document.getElementById('violet').addEventListener('click', function() {
-      //   currColor = violet;
-      // });
+      document.getElementById('red').addEventListener('click', function() {
+        currColor = red;
+      });
+      document.getElementById('orange').addEventListener('click', function() {
+        currColor = orange;
+      });
+      document.getElementById('yellow').addEventListener('click', function() {
+        currColor = yellow;
+      });
+      document.getElementById('green').addEventListener('click', function() {
+        currColor = green;
+      });
+      document.getElementById('blue').addEventListener('click', function() {
+        currColor = blue;
+      });
+      document.getElementById('indigo').addEventListener('click', function() {
+        currColor = indigo;
+      });
+      document.getElementById('violet').addEventListener('click', function() {
+        currColor = violet;
+      });
     }
 
     function saveState (canvas) {
