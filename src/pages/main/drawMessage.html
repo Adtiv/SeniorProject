@@ -1,16 +1,18 @@
 <ion-content class="canvas" id="canvasPage" [style.background-image]="getImage()">
-  <button id="undoButton" color="primary" ion-button icon-only round>
-    <ion-icon name="undo"></ion-icon>
-  </button>
-  <!-- <div id="red" style="background-color: #ff0000;"></div>
-  <div id="orange" style="background-color: #ffa500;"></div>
-  <div id="yellow" style="background-color: #ffb90f;"></div>
-  <div id="green" style="background-color: #659b41;"></div>
-  <div id="blue" style="background-color: #0000ff;"></div>
-  <div id="indigo" style="background-color: #4b0082;"></div>
-  <div id="violet" style="background-color: #ee82ee;"></div> -->
-  <!-- <button id="save" color="primary" ion-button icon-only round>
-    <ion-icon name="arrow-dropright-circle"></ion-icon>
-  </button> -->
+  <ion-icon id="exitButton" color="white" style="position: absolute; left:10px; top: 10px; font-size: 50px;" name="close"></ion-icon>
+  <ion-icon id="undoButton" color="white" style="position: absolute; right: 70px; top: 15px; font-size: 50px;"  name="undo"></ion-icon>
+  <ion-fab id="colorPalette" style="position: absolute; right: 10px; top: 15px;">
+    <button ion-fab mini><ion-icon name="color-palette"></ion-icon></button>
+    <ion-fab-list>
+      <button id="red" ion-fab style="background-color: red"></button>
+      <button id="orange" ion-fab style="background-color: orange"></button>
+      <button id="yellow" ion-fab style="background-color: yellow"></button>
+      <button id="green" ion-fab style="background-color: green"></button>
+      <button id="blue" ion-fab style="background-color: blue"></button>
+      <button id="indigo" ion-fab style="background-color: indigo"></button>
+      <button id="violet" ion-fab style="background-color: violet"></button>
+    </ion-fab-list>
+  </ion-fab>
+  <ion-icon id="save" color="white" style="position: absolute; bottom: 5px; right: 10px; font-size: 50px;" name="arrow-dropright-circle"></ion-icon>
   <canvas id="canvas">This text is displayed if your browser does not support HTML5 Canvas.</canvas>
 </ion-content>

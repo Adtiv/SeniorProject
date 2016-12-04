@@ -66,17 +66,17 @@ export class CameraViewPage implements OnInit{
   ngOnInit(){
 
   }
-  getBase64Image(url,callback) {
-      var image = new Image();
-      image.onload = function () {
-          var canvas = document.createElement('canvas');
-          canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
-          canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
-          canvas.getContext('2d').drawImage(this, 0, 0);
-          callback(canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, ''));
-      };
-      image.src = url;
-  }
+  // getBase64Image(url,callback) {
+  //     var image = new Image();
+  //     image.onload = function () {
+  //         var canvas = document.createElement('canvas');
+  //         canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
+  //         canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
+  //         canvas.getContext('2d').drawImage(this, 0, 0);
+  //         callback(canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, ''));
+  //     };
+  //     image.src = url;
+  // }
   ionViewDidEnter() {
     document.getElementById('cameraView').style.width = "" + this.platform.width() + "px";
     document.getElementById('cameraView').style.height = "" + this.platform.height() + "px";
@@ -95,13 +95,9 @@ export class CameraViewPage implements OnInit{
         targetHeight: this.platformHeight
       }).then((imageData) => {
       // imageData is a base64 encoded string
-        console.log("GETTING THE PICTURE");
-        console.log("targetWidth: " + this.platformWidth);
-        console.log("targetHeight: " + this.platformHeight);
         this.base64Image = "data:image/jpeg;base64," + imageData;
         console.log("BASE64 IMAGE: " + this.base64Image);
         this.mainService.cameraPicture = this.base64Image;
-        console.log("NAVIGATING TO DRAW MESSAGE");
         this.navCtrl.setRoot(DrawMessagePage);
       }, (err) => {
         console.log("UH OH THAT DID NOT WORK " + err);

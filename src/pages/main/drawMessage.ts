@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
 import { CameraPreview } from 'ionic-native';
 import { MainService } from './main.service';
+import { CameraViewPage } from './cameraView';
 
 declare var cordova:any;
 @Component({
@@ -113,10 +114,14 @@ export class DrawMessagePage {
       document.getElementById('undoButton').addEventListener('click', function() {
         undo(canvas, context);
       });
+      document.getElementById('exitButton').addEventListener('click', function() {
+        exit();
+      });
       document.getElementById('save').addEventListener('click', function() {
         save(canvas);
       });
       document.getElementById('red').addEventListener('click', function() {
+        console.log("Trying to change color to red");
         currColor = red;
       });
       document.getElementById('orange').addEventListener('click', function() {
@@ -159,6 +164,9 @@ export class DrawMessagePage {
 
     function undo(canvas, context) {
       restoreState(canvas, context, undo_list);
+    }
+    function exit() {
+      self.navCtrl.setRoot(CameraViewPage);
     }
   }
   getImage(){
