@@ -66,17 +66,16 @@ export class CameraViewPage implements OnInit{
   ngOnInit(){
 
   }
-  // getBase64Image(url,callback) {
-  //     var image = new Image();
-  //     image.onload = function () {
-  //         var canvas = document.createElement('canvas');
-  //         canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
-  //         canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
-  //         canvas.getContext('2d').drawImage(this, 0, 0);
-  //         callback(canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, ''));
-  //     };
-  //     image.src = url;
-  // }
+  getBase64Image(img) {
+    console.log("INSIDE RESIZE IMAGE");
+        var canvas = document.createElement('canvas');
+        canvas.width = img.width; // or 'width' if you want a special/scaled size
+        canvas.height = img.height; // or 'height' if you want a special/scaled size
+        canvas.getContext('2d').drawImage(img, this.platformWidth, this.platformHeight);
+        var newImage = canvas.toDataURL();
+        console.log("NEW IMAGE : " + newImage);
+        return newImage;
+  }
   ionViewDidEnter() {
     document.getElementById('cameraView').style.width = "" + this.platform.width() + "px";
     document.getElementById('cameraView').style.height = "" + this.platform.height() + "px";

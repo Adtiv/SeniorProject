@@ -149,6 +149,7 @@ export class DrawMessagePage {
     }
     function save(canvas){
       self.mainService.uploadToFirebase(canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, ''));
+      self.navCtrl.setRoot(CameraViewPage);
     }
     function restoreState(canvas, context, pop) {
       if(pop.length) {
