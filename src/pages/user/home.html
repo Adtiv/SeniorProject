@@ -6,7 +6,15 @@
   </ion-navbar>
 </ion-header>
 
+<<<<<<< Updated upstream
 <ion-content class="has-footer" padding>
+=======
+<ion-content class="has-footer" id="homeBackground" padding>
+	<div style="right:0; bottom:0;width:50px;height:50px;background-color:green;position:absolute;margin-bottom:55%;margin-right:45%;"></div>
+	<div style="right:0; top:0;width:50px;height:50px;background-color:white;position:absolute;margin-top:55%;margin-right:45%;"></div>
+	<div style="left:0;top:0;width:50px;height:50px;background-color:red;position:absolute;margin-top:55%;margin-left:45%;"></div>
+	<div style="left:0;bottom:0;width:50px;height:50px;background-color:blue;position:absolute;margin-bottom:55%;margin-left:45%;"></div>
+>>>>>>> Stashed changes
 	<button ion-button (click)="preview();">Explore</button>
 			<span *ngFor="let image of images|async"><img [src]="image.downloadURL" style="width:50px;height50px"/></span>
 </ion-content>

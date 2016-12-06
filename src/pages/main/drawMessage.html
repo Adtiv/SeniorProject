@@ -1,4 +1,19 @@
-<ion-content id="backgroundImage" [style.background-image]="getImage()">
-
-  <!--<img [src]="domSanitizer.bypassSecurityTrustUrl(backgroundImage)"/>-->
+<ion-content class="canvas" id="canvasPage" [style.background-image]="getImage()">
+  <button id="undoButton" color="primary" ion-button icon-only round large>
+    <ion-icon name="undo"></ion-icon>
+  </button>
+  <button id="backButton" color="primary" (click)="goBack()"ion-button icon-only round large>
+    <ion-icon name="arrow-back"></ion-icon>
+  </button>
+  <!-- <div id="red" style="background-color: #ff0000;">Red</div>
+  <div id="orange" style="background-color: #ffa500;">Orange</div>
+  <div id="yellow" style="background-color: #ffb90f;">Yellow</div>
+  <div id="green" style="background-color: #659b41;">Green</div>
+  <div id="blue" style="background-color: #0000ff;">Blue</div>
+  <div id="indigo" style="background-color: #4b0082;">Indigo</div>
+  <div id="violet" style="background-color: #ee82ee;">Violet</div> -->
+  <button id="save" color="primary" ion-button icon-only round large>
+    <ion-icon name="cloud-done"></ion-icon>
+  </button>
+  <canvas id="canvas">This text is displayed if your browser does not support HTML5 Canvas.</canvas>
 </ion-content>

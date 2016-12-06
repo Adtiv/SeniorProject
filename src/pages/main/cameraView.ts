@@ -24,7 +24,11 @@ export class CameraViewPage implements OnInit{
   public storageRef: any;
   public firebaseRef:any;
   public imagesInUserLocation:any;
-  constructor(public af:AngularFire,public loading:LoadingController,public navCtrl: NavController,private platform:Platform,private domSanitizer:DomSanitizer,private mainService:MainService){
+  public platformWidth:any;
+  public platformHeight:any;
+  constructor(public af:AngularFire,public loading:LoadingController,public navCtrl: NavController,private platform:Platform,private mainService:MainService){
+    this.platformWidth = this.platform.width();
+    this.platformHeight = this.platform.height();
     this.storageRef = firebase.storage().ref('pics/');
     //this.firebaseRef = firebase.database().ref('images/<imgId>');
     this.mainService.watchAndQueryLocation()
@@ -53,13 +57,45 @@ export class CameraViewPage implements OnInit{
         navCtrl.push(DrawMessagePage);     
       });
     });
-    this.imagesInUserLocation=this.mainService.userRadius.Values();
-    console.log("IMAGES");
-    console.log(this.imagesInUserLocation);
-    setInterval(() => {this.imagesInUserLocation=this.mainService.userRadius.Values()}, 60*1);  
+
+    this.imagesInUserLocation=this.mainService.userRadius.keyValues();
+    setInterval(() => {this.imagesInUserLocation=this.mainService.userRadius.keyValues()}, 60*1);
   }
   ngOnInit(){
 
+  }
+  getMargin(key){
+    console.log("MESSAGE LOCATION: "+this.mainService.messageLocationsInRadius.item(key));
+    return "50%";
+  }
+  scaleAndLocation(key){
+    var distance:any = this.mainService.userRadius.item(key).distance;
+    var scaleFactor:any = (((.05-distance)/.05)*150)
+    var margin:any = ((.05-distance)/.05)*45
+    var style;
+    if(this.mainService.userRadius.item(key).isLeft){
+      if(this.mainService.userRadius.item(key).isBottom){
+        style={"position":"absolute","left":0,"bottom":0,"width":scaleFactor+"px","height":scaleFactor+"px","margin-left":margin+"%","margin-bottom":margin+"%"}
+      }
+      else{
+        style={"position":"absolute","left":0,"top":0,"width":scaleFactor+"px","height":scaleFactor+"px","margin-left":margin+"%","margin-top":margin+"%"}
+      }
+    }
+    else{
+      if(this.mainService.userRadius.item(key).isBottom){
+        style={"position":"absolute","right":0,"bottom":0,"width":scaleFactor+"px","height":scaleFactor+"px","margin-right":margin+"%","margin-bottom":margin+"%"}
+      }
+      else{
+        style={"position":"absolute","right":0,"top":0,"width":scaleFactor+"px","height":scaleFactor+"px","margin-right":margin+"%","margin-top":margin+"%"}
+      }
+    }
+    return style;/*
+    else if(distance>.04 || (distance>.02 && distance <.03) || (distance>0 && distance <.01)){
+      margin+=25;
+    }
+    */
+    //console.log("scale"+scaleFactor);
+    //console.log("margin"+margin);
   }
   getBase64Image(url,callback) {
       var image = new Image();

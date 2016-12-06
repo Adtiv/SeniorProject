@@ -1,15 +1,14 @@
-<ion-content class="cameraView">
-	<ion-list>
-		<!--
-		<span *ngFor="let item of imagesInUserLocation.items| mapToIterable">
-			<img [src]="item.value" style="width:50px;height50px"/>
-			{{item.key}}
-			<img src=""id="uploadPic"/>
-		</span>
-		-->
-		<span *ngFor="let img of imagesInUserLocation">
-			<img [src]="img" style="width:50px;height50px"/>
-		</span>
-	</ion-list>
-  <button ion-button large outline fab fab-center fab-bottom (click)="takePicture()"></button>
+<ion-content id="cameraView">
+	<div style="width:100%;height:100%;">
+		<div *ngFor="let img of imagesInUserLocation">
+			<div style="position:absolute"[ngStyle]="scaleAndLocation(img.key)"> 
+				<img [src]="img.value.downloadURL"/>
+			</div>
+		</div>
+		<div id="cameraDiv" style="text-align: center;">
+		    <button ion-button outline round icon-only large (click)="takePicture()">
+		      <ion-icon name="camera"></ion-icon>
+		    </button>
+	  </div>
+	</div>
 </ion-content>

@@ -1,4 +1,5 @@
 import {Injectable,OnInit} from '@angular/core';
+//import {LoadingController} from 'ionic-angular'
 import {AngularFire, FirebaseListObservable, FirebaseObjectObservable,FirebaseAuth} from 'angularfire2';
 import { CameraViewPage } from '../main/cameraView'
 
@@ -11,7 +12,9 @@ export class UserService implements OnInit{
     //user: FirebaseObjectObservable<any[]>;
     users: FirebaseListObservable<any[]>;
     public auth:any;
-    constructor(private af:AngularFire){
+    public af:AngularFire;
+    constructor(private angularFire:AngularFire){
+        this.af=angularFire;
         this.auth=firebase.auth();
         this.users=this.af.database.list('users/');
         //this.users.subscribe((user)=>console.log(user));
@@ -19,15 +22,7 @@ export class UserService implements OnInit{
     ngOnInit(){
     }
     createUser(email, password){
-        this.auth.createUserWithEmailAndPassword(email, password).catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          console.log(errorMessage);
-          // ...
-        }).then(user=>{
-            this.af.database.object('users/'+user.uid).set({email:email})
-        })
+        return this.auth.createUserWithEmailAndPassword(email, password)
     }
     logout(){
         this.auth.signOut().then(function() {
@@ -37,14 +32,12 @@ export class UserService implements OnInit{
         });
     }
     loginUser(email, password){
-        this.auth.signInWithEmailAndPassword(email, password).catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // ...
-        }).then(user=>{
-            //console.log(user)
-            //this.nav.setRoot(CameraViewPage);
-        });
+        /*let loading = this.loading.create({
+          content:"Logging in.."
+        })
+        loading.present();
+        */
+        var self = this;
+        return this.auth.signInWithEmailAndPassword(email, password)
     }
 }

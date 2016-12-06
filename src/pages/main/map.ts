@@ -1,35 +1,52 @@
+interface KeyValues{
+    key:string;
+    value:Message;
+}
+export interface Location{
+    lat:any;
+    long:any;
+}
+export interface Message{
+    downloadURL:string;
+    location:Location;
+    distance:any;
+    isLeft:boolean;
+    isBottom:boolean;
+}
 export class Map {
-    public items: { [index: string]: string } = {};
+    public items: { [index: string]: Message } = {}; 
     private count: number;
     constructor(){
     	this.count=0;
     }
  
-    public ContainsKey(key: string): boolean {
+    public containsKey(key: string): boolean {
         return this.items.hasOwnProperty(key);
     }
  
-    public Count(): number {
+    public length(): number {
         return this.count;
     }
  
-    public Add(key: string, value: string) {
+    public add(key: string, value: Message) {
         this.items[key] = value;
         this.count++;
     }
- 
-    public Remove(key: string): string {
+    public update(key: string, value: Message) {
+        this.items[key] = value;
+    }
+    public remove(key: string): Message {
         var val = this.items[key];
         delete this.items[key];
         this.count--;
         return val;
     }
  
-    public Item(key: string): string {
+    public item(key: string): Message {
         return this.items[key];
     }
  
-    public Keys(): string[] {
+    public keys(): string[] {
         var keySet: string[] = [];
  
         for (var prop in this.items) {
@@ -41,15 +58,15 @@ export class Map {
         return keySet;
     }
  
-    public Values(): string[] {
-        var values: string[] = [];
- 
-        for (var prop in this.items) {
+    public keyValues(): any {
+        var keyValues: KeyValues[] = [];
+        keyValues = Object.keys(this.items)
+            .map((key) => ({ 'key': key, 'value': this.items[key] }));
+        /*for (var prop in this.items) {
             if (this.items.hasOwnProperty(prop)) {
-                values.push(this.items[prop]);
+                keyValues.push({'key':prop,'value':this.items[prop]});
             }
-        }
- 
-        return values;
+        }*/
+        return keyValues;
     }
 }
