@@ -20,7 +20,7 @@ export class DrawMessagePage {
       this.backgroundImage = mainService.cameraViewPicture;
     }
     else {
-      this.backgroundImage = mainService.cameraPicture;
+      //this.backgroundImage = mainService.cameraPicture;
     }
   }
   goBack(){
