@@ -12,7 +12,7 @@ import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { Map } from './Map'
 declare var cordova:any;
 declare var firebase: any;
-
+//
 //html, body, ion-content, ion-page, .nav-decor 
 @Component({
   selector:'camera-view',
