@@ -4,6 +4,7 @@ import { Platform } from 'ionic-angular';
 import { CameraPreview } from 'ionic-native';
 import { MainService } from './main.service';
 import { CameraViewPage } from './cameraView';
+import {LoadingController} from 'ionic-angular';
 
 declare var cordova:any;
 @Component({
@@ -12,7 +13,7 @@ declare var cordova:any;
 export class DrawMessagePage {
   public backgroundImage: string;
   public myCanvas: HTMLCanvasElement;
-  constructor(public navCtrl: NavController,private platform:Platform,private mainService:MainService) {
+  constructor(public loading:LoadingController,public navCtrl: NavController,private platform:Platform,private mainService:MainService) {
     if(this.platform.is('android')) {
       this.backgroundImage = mainService.cameraViewPicture;
     }
@@ -45,27 +46,6 @@ export class DrawMessagePage {
     var currColor = black;
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
-    // var redBox = document.getElementById('red');
-    // redBox.style.width = "" + canvasWidth * 0.1 + "px";
-    // redBox.style.height = "" + canvasHeight * 0.1 + "px";
-    // var orangeBox = document.getElementById('orange');
-    // orangeBox.style.width = "" + canvasWidth * 0.1 + "px";
-    // orangeBox.style.height = "" + canvasHeight * 0.1 + "px";
-    // var yellowBox = document.getElementById('yellow')
-    // yellowBox.style.width = "" + canvasWidth * 0.1 + "px";
-    // yellowBox.style.height = "" + canvasHeight * 0.1 + "px";
-    // var greenBox = document.getElementById('green')
-    // greenBox.style.width = "" + canvasWidth * 0.1 + "px";
-    // greenBox.style.height = "" + canvasHeight * 0.1 + "px";
-    // var blueBox = document.getElementById('blue')
-    // blueBox.style.width = "" + canvasWidth * 0.1 + "px";
-    // blueBox.style.height = "" + canvasHeight * 0.1 + "px";
-    // var indigoBox = document.getElementById('indigo')
-    // indigoBox.style.width = "" + canvasWidth * 0.1 + "px";
-    // indigoBox.style.height = "" + canvasHeight * 0.1 + "px";
-    // var violetBox = document.getElementById('violet')
-    // violetBox.style.width = "" + canvasWidth * 0.1 + "px";
-    // violetBox.style.height = "" + canvasHeight * 0.1 + "px";
     init();
 
     function start(event) {
@@ -148,8 +128,20 @@ export class DrawMessagePage {
       undo_list.push(canvas.toDataURL());
     }
     function save(canvas){
+      let loading = self.loading.create({
+        content:"Uploading Image..",
+        duration:4000
+      })
+      loading.present();
       self.mainService.uploadToFirebase(canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, ''));
-      self.navCtrl.setRoot(CameraViewPage);
+      loading.onDidDismiss(() => {
+        self.navCtrl.setRoot(CameraViewPage);
+      });
+      /*
+      loading.present().then(()=>{
+          loading.dismiss()
+        });
+      */
     }
     function restoreState(canvas, context, pop) {
       if(pop.length) {
@@ -166,9 +158,11 @@ export class DrawMessagePage {
     function undo(canvas, context) {
       restoreState(canvas, context, undo_list);
     }
+
     function exit() {
       self.navCtrl.setRoot(CameraViewPage);
     }
+
   }
   getImage(){
     //return this.domSanitizer.bypassSecurityTrustStyle('url(' + this.backgroundImage + ')');

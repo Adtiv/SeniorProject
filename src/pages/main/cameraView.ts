@@ -7,7 +7,7 @@ import { CameraPreview , CameraPreviewRect} from 'ionic-native'
 import { MainService } from './main.service';
 import { DrawMessagePage } from './drawMessage';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
-import { Map } from './Map'
+import { Map } from './Map';
 declare var cordova:any;
 declare var firebase: any;
 
@@ -27,8 +27,6 @@ export class CameraViewPage implements OnInit{
   constructor(public af:AngularFire,public loading:LoadingController,public navCtrl: NavController,private platform:Platform,private mainService:MainService){
     this.platformWidth = this.platform.width();
     this.platformHeight = this.platform.height();
-    console.log("platformWidth: " + this.platformWidth);
-    console.log("platformHeight: " + this.platformHeight);
     this.storageRef = firebase.storage().ref('pics/');
     //this.firebaseRef = firebase.database().ref('images/<imgId>');
     this.mainService.watchAndQueryLocation()
@@ -58,27 +56,61 @@ export class CameraViewPage implements OnInit{
       });*/
         navCtrl.setRoot(DrawMessagePage);
     });
-    this.imagesInUserLocation=this.mainService.userRadius.Values();
-    console.log("IMAGES");
-    console.log(this.imagesInUserLocation);
-    setInterval(() => {this.imagesInUserLocation=this.mainService.userRadius.Values()}, 60*1);
+
+    this.imagesInUserLocation=this.mainService.userRadius.keyValues();
+    setInterval(() => {this.imagesInUserLocation=this.mainService.userRadius.keyValues()}, 60*1);
   }
   ngOnInit(){
 
   }
-  getBase64Image(img) {
-    console.log("INSIDE RESIZE IMAGE");
-        var canvas = document.createElement('canvas');
-        canvas.width = img.width; // or 'width' if you want a special/scaled size
-        canvas.height = img.height; // or 'height' if you want a special/scaled size
-        canvas.getContext('2d').drawImage(img, this.platformWidth, this.platformHeight);
-        var newImage = canvas.toDataURL();
-        console.log("NEW IMAGE : " + newImage);
-        return newImage;
-  }
   ionViewDidEnter() {
     document.getElementById('cameraView').style.width = "" + this.platform.width() + "px";
     document.getElementById('cameraView').style.height = "" + this.platform.height() + "px";
+  }
+  getMargin(key){
+    console.log("MESSAGE LOCATION: "+this.mainService.messageLocationsInRadius.item(key));
+    return "50%";
+  }
+
+  scaleAndLocation(key){
+    var distance:any = this.mainService.userRadius.item(key).distance;
+    var scaleFactor:any = (((.05-distance)/.05)*150)
+    var margin:any = ((.05-distance)/.05)*45
+    var style;
+    if(this.mainService.userRadius.item(key).isLeft){
+      if(this.mainService.userRadius.item(key).isBottom){
+        style={"position":"absolute","left":0,"bottom":0,"width":scaleFactor+"px","height":scaleFactor+"px","margin-left":margin+"%","margin-bottom":margin+"%"}
+      }
+      else{
+        style={"position":"absolute","left":0,"top":0,"width":scaleFactor+"px","height":scaleFactor+"px","margin-left":margin+"%","margin-top":margin+"%"}
+      }
+    }
+    else{
+      if(this.mainService.userRadius.item(key).isBottom){
+        style={"position":"absolute","right":0,"bottom":0,"width":scaleFactor+"px","height":scaleFactor+"px","margin-right":margin+"%","margin-bottom":margin+"%"}
+      }
+      else{
+        style={"position":"absolute","right":0,"top":0,"width":scaleFactor+"px","height":scaleFactor+"px","margin-right":margin+"%","margin-top":margin+"%"}
+      }
+    }
+    return style;/*
+    else if(distance>.04 || (distance>.02 && distance <.03) || (distance>0 && distance <.01)){
+      margin+=25;
+    }
+    */
+    //console.log("scale"+scaleFactor);
+    //console.log("margin"+margin);
+  }
+  getBase64Image(url,callback) {
+      var image = new Image();
+      image.onload = function () {
+          var canvas = document.createElement('canvas');
+          canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
+          canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
+          canvas.getContext('2d').drawImage(this, 0, 0);
+          callback(canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, ''));
+      };
+      image.src = url;
   }
   takePicture() {
     if(this.platform.is('android')) {
